@@ -30,3 +30,27 @@ class Solution {
         return list;
     }
 }
+
+class Solution {
+    public int longestOnes(int[] A, int K) {
+        int maxLength = 0;
+        int changeCount = 0;
+        int length = 0;
+        for (int index = 0; index < A.length; index++) {
+            if (A[index] == 1) {
+                length++;
+            } else if (changeCount < K) {
+                length++;
+                changeCount++;
+            } else {
+                // already change K zeros
+                int preIndex = index - length;
+                while (A[preIndex++] == 1) {
+                    length--;
+                }
+            }
+            maxLength = Math.max(maxLength, length);
+        }
+        return maxLength;
+    }
+}
