@@ -63,3 +63,37 @@ class Solution {
         return head;
     }
 }
+
+class Solution {
+    public ListNode mergeKLists(ListNode[] lists) {
+        List<ListNode> preNodeList = new ArrayList();
+        for(ListNode list : lists){
+            ListNode node = new ListNode(0);
+            node.next = list;
+            preNodeList.add(node);
+        }
+        ListNode newHead = new ListNode(0);
+        ListNode newNode = newHead;
+        int remainListNum = lists.length;
+        while(remainListNum != 0){
+            remainListNum = 0;
+            ListNode preMinNode = null;
+            for(ListNode preNode : preNodeList){
+                if(preNode.next != null){
+                    remainListNum++;
+                    if(preMinNode == null){
+                        preMinNode = preNode;
+                    }else{
+                        preMinNode = preMinNode.next.val < preNode.next.val ? preMinNode : preNode;
+                    }
+                }
+            }
+            if(preMinNode != null){
+                newNode.next = preMinNode.next;
+                newNode = newNode.next;
+                preMinNode.next = preMinNode.next.next;
+            }
+        }
+        return newHead.next;
+    }
+}
